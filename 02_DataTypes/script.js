@@ -19,5 +19,14 @@ Variable Deklaration änvands av camelCase:
 Which means first word starts with a lowercase while second word starts with a uppercase:
 E.g: firstName, LastName, phoneNumber.
 
+firstName = "David"
 
+To declare a variable globally you use var e.g
+var firstName = "David"
+
+To declare a variable locally you use let e.g Recommended to you.
+let firstName = "David"
+
+To declare a constant variable and gobally you use const e.g
+const firstName = "David"
 */
