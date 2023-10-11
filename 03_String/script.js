@@ -26,6 +26,8 @@ Differences between the apostrophe and how to use it e.g:
 
 var sentence = "Hi, i am David och I live in... I am even the best in the world"
 
+Below are examples....
+
 */
 
 
@@ -51,8 +53,69 @@ console.log(sentence)
 
 let id = 1
 
+let category = "computers"
+
+let version = "v1"
+
 var url = 'https://domain.com/api/products?id=1'
 var url = 'https://domain.com/api/products?id' + id
 var url = `https://domain.com/api/products?id=${id}`
 
 console.log(url)
+
+
+var urlcat = 'https://domain.com/api/products?id=1&category=computers'
+var urlcat = 'https://domain.com/api/products?id' + id + '&category' + category
+var urlcat = `https://domain.com/api/products?id=${id}&${category}`
+
+console.log(urlcat)
+
+
+var urlver = 'https://domain.com/api/v1/products?id=1&category=computers'
+var urlver = 'https://domain.com/api/'+ version +'/products?id' + id + '&category' + category
+var urlver = `https://domain.com/api/${version}/products?id=${id}&${category}`
+
+console.log(urlver)
+
+
+/* Note declared firstname without let because it was already declared earlier*/
+
+firstName = "David"
+let LastName = "John"
+var email = `${firstName}.${LastName}@domain.com`
+
+/* Converts to Uppercase */
+email = email.toLocaleUpperCase()
+/* Converts to Lowercase */
+email = email.toLocaleLowerCase()
+
+/* .trim() removes spacing only from the beginning and the end */
+email.trim()
+
+/* .lenght counts the number of text */
+let length = email.length;
+
+console.log(length)
+
+console.log(email)
+
+
+/* .split() is used to separate text into different arrays, We can specify where to stop the split e.g ;*/
+/* This can also be used in spliting Connextion string for example.... You can split a word from a sentence and 
+later split it again
+*/
+
+var data =  "David;John;David.John@domain.com;Address"
+const user = data.split(";")
+
+console.log(user)
+
+var greeting = `Welcome... ${user[0]} ${user[1]}`
+
+console.log(greeting)
+
+/* Spliting more than one at the same time */
+const userEmailspl = data.split(";")[2].split("@")[0].split(".")[0].toLocaleLowerCase()
+
+console.log(userEmailspl)
+
