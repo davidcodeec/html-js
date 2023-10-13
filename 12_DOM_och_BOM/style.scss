@@ -1,0 +1,29 @@
+main {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.box{
+    background-color: antiquewhite;
+    padding: 10px;
+    border: 1px solid grey;
+}
+
+#box-one{
+    background-color: burlywood;
+}
+
+#box-two{
+    background-color: gray;
+}
+
+#box-three{
+    background-color: lightgreen;
+}
+
+section{
+    background-color: lightpink;
+    border: 1px solid grey;
+}
