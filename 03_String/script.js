@@ -22,6 +22,26 @@ let firstName = 'David'
 
 let firstName = `David`  (Shift + ´)
 
+slice(start, end)
+substring(start, end)
+substr(start, length)
+concat() joins two or more strings:
+
+
+toString()	Returns a number as a string
+toExponential()	Returns a number written in exponential notation
+toFixed()	Returns a number written with a number of decimals
+toPrecision()	Returns a number written with a specified length
+ValueOf()	Returns a number as a number
+Number()	Returns a number converted from its argument.
+parseFloat()	Parses its argument and returns a floating point number
+parseInt()	Parses its argument and returns a whole number
+The shift() method removes the first array element and "shifts" all other elements to a lower index.
+The unshift() method adds a new element to an array (at the beginning), and "unshifts" older elements:
+The concat() method creates a new array by merging (concatenating) existing arrays:
+The sort() method sorts an array alphabetically:
+
+
 Differences between the apostrophe and how to use it e.g:
 
 var sentence = "Hi, i am David och I live in... I am even the best in the world"
