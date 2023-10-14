@@ -25,6 +25,28 @@ To change the style of an HTML element, use this syntax: document.getElementById
 
 */
 
+
+/* Function for onclick Alert button to show and hide*/
+function showAlert(){
+    const alertBox = document.querySelector("#alert-box")
+
+    /* It works according to order with boostrap class d-none */
+    alertBox.classList.remove("d-none")
+    alertBox.classList.remove("hidden")
+    alertBox.classList.add("show")
+
+
+    /* For the alert to fade away */
+    setTimeout(() => {
+
+        /* It works according to order This makes it fade away in 5 seconds*/
+    alertBox.classList.remove("show")
+    alertBox.classList.add("hidden")
+    },5000 )
+}
+
+
+
 let boxOne = document.getElementById("box-one")
 let boxTwo = document.getElementById("box-two")
 let elementById = document.getElementById("box-three")

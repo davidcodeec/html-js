@@ -1,3 +1,31 @@
+html,body{
+    padding: 10px;
+}
+
+button{
+    background-color: #F0F0F0;
+    border : 1px solid grey;
+    padding: 5px 5px;
+    margin : 0px 0px 0px 400px; /* Top bottom 10px  right left 0px*/
+    width: 40%;
+    border-radius: 10px;
+}
+
+/* .alert{
+    opacity: 0;
+} */
+
+.hidden{
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.show{
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
+}
+
 main {
     padding: 20px;
     display: grid;
