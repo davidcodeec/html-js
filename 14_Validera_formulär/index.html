@@ -15,24 +15,24 @@
       <form onsubmit="register(event)" method="post">
          <div class="form-content">
             <div class="mb-3">
-               <input id="firstName" class="error" placeholder="Förnamn..." type="text">
-               <span>Du måste ange ett giltig förnamn</span>
+               <input id="firstName" placeholder="Förnamn..." type="text">
+               <span id="firstName-error"></span>
             </div>
             <div class="mb-3">
                <input  id="lastName" placeholder="Efternamn..." type="text">
-               <span>Du måste ange ett giltig efternamn</span>
+               <span id="lastName-error"></span>
             </div>
             <div class="mb-3">
                <input  id="email" placeholder="E-postaddress..." type="email">
-               <span>Du måste ange en giltig e-postaddress</span>
+               <span id="email-error"></span>
             </div>
             <div class="mb-3">
                <input  id="password" placeholder="Lösenord..." type="password">
-               <span>Du måste ange ett giltig lösenord</span>
+               <span id="password-error"></span>
             </div>
             <div class="mb-3">
                <input  id="comfirmPassword" placeholder="Bekräfte löseordet..." type="password">
-               <span>Du måste bekräfte löseordet</span>
+               <span id="comfirmPassword-error"></span>
             </div>
          </div>
          <button type="submit">Registrar Nu!</button>
