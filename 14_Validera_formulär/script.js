@@ -17,18 +17,26 @@ eventlistner..Its is used with IDs...
 
 /* event has information for the form */
 function register(event){
-    event.preventDefault()
 
-    const user = {
+    //Used or makes the page not redirect
+    event.preventDefault()
+    
+    //A variable used and created to check if all form elements are filled or correct or validated
+    let isElementValidArray = []
+
+   /*  
+   // Not required since we are using target
+   const user = {
         firstName: event.target[0].value,
         lastName: event.target[1].value,
         email: event.target[2].value,
         password: event.target[3].value,
         comfirmPassword: event.target[4].value
-    }
+    } 
+    */
 
     /* console.log(user.firstName) */
-    console.log(user)
+    /* console.log(user) */
 
 
     /* Using target to access the element */
@@ -36,13 +44,38 @@ function register(event){
     validateFormField(event.target[1])
     validateFormField(event.target[2]) */
 
+
+    // Code same as below but this loops through all target required elements and makes sure its true
+    // The pushes or add the value to the isElementValidArray
+    for(let i=0; i<event.target.length; i++){
+
+        if(event.target[i].required){
+           let isValid = validate(event.target[i])  
+           isElementValidArray.push(isValid)
+
+        } 
+    }
+
+
+
+
     /* Instead of using validateFormField(event.target[0]) for each const user we can loop through 
-    the target value as shown below */
+    the target value as shown below ...Not required anymore since it doesnt validate all the form
+
     for(let element of event.target){
         if(element.required){
             validate(element)  
         }    
-    }     
+    }  
+
+    */
+    
+    // if all form elements are filled and correct then ElementValidArray will be true.
+    if(isElementValidArray.includes(false)){
+        console.log('Formularet innehåller felaktigheter')
+    }else{
+        console.log('Nu är formularet validerat och klart och allt är OK')
+    }
 
     /* let result_fn = validateFirstName(user.firstName, 5) // 5 is the length of firstName
     let result_ln = validateLastName(user.lastName, 5)
@@ -50,11 +83,11 @@ function register(event){
     console.log(result_ln)
      */
 
-    let result_fn = validateLength(user.firstName)
+   /*  let result_fn = validateLength(user.firstName)
     let result_ln = validateLength(user.lastName)
     console.log(result_fn)
     console.log(result_ln)
-
+ */
 
   /* // Using a Css class with javascript form ..This is used for validation but without the for loop
     // if(validateLength(user.firstName)=== false) Same as below 
@@ -133,7 +166,7 @@ function validate(element){
     console.log(value)
  */
 
-    
+
     const errorMessages = {
         firstName_required : 'Du måste ange ett förnamn',
         firstName_invalid : 'Du måste ange ett giltig förnamn',
@@ -151,15 +184,15 @@ function validate(element){
     if(!validateLength(element.value, 1)) {
         document.getElementById(`${element.id}`).classList.add('error')
         document.getElementById(`${element.id}-error`).innerHTML= errorMessages[element.id + '_required']
-
+        return false
     }else{
 
-        var result = false
+        let result = false
 
         /* Used to valid the email using regex along with the validFormField...code same as below but much better*/
         switch(element.type){
             case 'text' :
-                result = validateLength(element.value)  
+                result = validateName(element.value)  
                 break;
             /* Validation for both email and password not working...??? */    
             case 'email' :
@@ -175,9 +208,11 @@ function validate(element){
         if(!result){
             document.getElementById(`${element.id}`).classList.add('error')
             document.getElementById(`${element.id}-error`).innerHTML= errorMessages[element.id + '_invalid']
+            return false
         } else {
             document.getElementById(`${element.id}`).classList.remove('error')
             document.getElementById(`${element.id}-error`).innerHTML=''
+            return true
         }
 
     }
@@ -286,8 +321,25 @@ function validateLastName(value,minLength=2) {
 
 // Easier way to write the code instead of creating 2 or more functions....
 
-function validateLength(value,minLength=2) {
+function validateName(value) {
 
+    // This regular expression validates the text i.e type firstName, lastNmme
+    // Note: this regular expression ensure you use uppercase for the first letter
+    // for the firstName and lastName...
+
+    if (/^[A-Z][a-zA-Z'-]{1,}$/.test(value) && validateLength(value)) {
+       
+        return true
+ }     
+    return false
+
+    
+}
+
+
+
+function validateLength(value,minLength=2) {
+    // This ensures that the lenght of the value to be at least 2
     if (value !== "" && value.length >= minLength) 
             return true
 
@@ -297,7 +349,7 @@ function validateLength(value,minLength=2) {
 } 
 
 function validateEmail(value) {
-
+    // This regular expression validates the type email
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
        
             return true
@@ -308,6 +360,7 @@ function validateEmail(value) {
 } 
 
 function validatePassword(element) {
+    // This regular expression validates the password
     if(element.getAttribute('data-comparewith') !== null )
         return compareValues(element)
 
