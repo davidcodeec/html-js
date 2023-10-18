@@ -15,23 +15,23 @@
       <form onsubmit="register(event)" method="post" novalidate>
          <div class="form-content">
             <div class="mb-3">
-               <input id="firstName" required placeholder="Förnamn..." type="text">
+               <input id="firstName" required onkeyup="validate(this)" placeholder="Förnamn..." type="text">
                <span id="firstName-error"></span>
             </div>
             <div class="mb-3">
-               <input  id="lastName" required  placeholder="Efternamn..." type="text">
+               <input  id="lastName" required onkeyup="validate(this)" placeholder="Efternamn..." type="text">
                <span id="lastName-error"></span>
             </div>
             <div class="mb-3">
-               <input  id="email" required  placeholder="E-postaddress..." type="email">
+               <input  id="email" required onkeyup="validate(this)" placeholder="E-postaddress..." type="email">
                <span id="email-error"></span>
             </div>
             <div class="mb-3">
-               <input  id="password" required  placeholder="Lösenord..." type="password">
+               <input  id="password" required onkeyup="validate(this)" placeholder="Lösenord..." type="password">
                <span id="password-error"></span>
             </div>
             <div class="mb-3">
-               <input  id="comfirmPassword" required data-comparewith="password" placeholder="Bekräfte löseordet..." type="password">
+               <input  id="comfirmPassword" required onkeyup="validate(this)" data-comparewith="password" placeholder="Bekräfte löseordet..." type="password">
                <span id="comfirmPassword-error"></span>
             </div>
          </div>

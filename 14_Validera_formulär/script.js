@@ -36,11 +36,11 @@ function register(event){
     validateFormField(event.target[1])
     validateFormField(event.target[2]) */
 
-    /* Instead of using validateFormField(event.target[0]) for each user we can loop through 
+    /* Instead of using validateFormField(event.target[0]) for each const user we can loop through 
     the target value as shown below */
     for(let element of event.target){
         if(element.required){
-            validateFormField(element)  
+            validate(element)  
         }    
     }     
 
@@ -56,10 +56,10 @@ function register(event){
     console.log(result_ln)
 
 
-    /* Using a Css class with javascript form */
-    /* if(validateLength(user.firstName)=== false) Same as below */
+  /* // Using a Css class with javascript form ..This is used for validation but without the for loop
+    // if(validateLength(user.firstName)=== false) Same as below 
     if(!validateLength(user.firstName)) {
-        /* error class and firstName-error was added to firstName if validateLength is false */
+        // error class and firstName-error was added to firstName if validateLength is false 
         document.querySelector('#firstName').classList.add('error')
         document.querySelector('#firstName-error').innerHTML='Du måste ange ett giltig förnamn'
 
@@ -117,18 +117,23 @@ function register(event){
     else {
         document.querySelector('#comfirmPassword').classList.remove('error')
         document.querySelector('#comfirmPassword-error').innerHTML=''
-    } 
+    }  */
 }
 
 
 /* Access the element using target using validateFormField target instead of if statement as seen above*/
-function validateFormField(element){
+function validate(element){
+
+    /* 
+    // Note: This is used for debugging...Dont console.log this values bcos it show the data....like password e.t.c
     console.log(element)
     const id = element.id
     const value = element.value
     console.log(id)
     console.log(value)
+ */
 
+    
     const errorMessages = {
         firstName_required : 'Du måste ange ett förnamn',
         firstName_invalid : 'Du måste ange ett giltig förnamn',
@@ -302,12 +307,27 @@ function validateEmail(value) {
     
 } 
 
-function validatePassword(value) {
+function validatePassword(element) {
+    if(element.getAttribute('data-comparewith') !== null )
+        return compareValues(element)
 
-    if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(element.value)) 
+    if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(element.value)) {
+           
             return true
+        }
 
         return false
 
     
 } 
+
+
+/* This is used to compare both the password and the comfirmPassword values */
+function compareValues(element){
+    let compareElement = document.getElementById(`${element.getAttribute('data-comparewith')}`)
+    
+    if(element.value === compareElement.value)
+        return true
+
+    return false
+}
