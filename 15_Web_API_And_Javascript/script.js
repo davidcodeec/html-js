@@ -68,7 +68,7 @@ async function handleForm(event){
           password: event.target['password'].value
           }) */
 
-          /* console.log(json) */
+           console.log(json) 
 
 
 
