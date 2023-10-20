@@ -1,6 +1,6 @@
 /* 
 
-Javascript - Hantera data till/från Web API:er med Javascrip
+Javascript - Hantera data till/från Web API:er med Javascript med POST Method...
 
 */
 
