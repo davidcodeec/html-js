@@ -15,8 +15,8 @@ eventlistner..Its is used with IDs...
 }) */
 
 
-/* event has information for the form */
-function handleForm(event){
+/* event has information for the form Async and wait works together*/
+async function handleForm(event){
 
     //Used or makes the page not redirect
     event.preventDefault()
@@ -36,14 +36,108 @@ function handleForm(event){
         } 
     }
 
-    // if all form elements are filled and correct then ElementValidArray will be true.
-    if(errors.includes(false)){
+    // if all form elements are filled and correct then ElementValidArray will be true. If and else is not required
+    // We only need the one where there is no error as used below...
+   /*  if(errors.includes(false)){
         console.log('Formularet innehåller felaktigheter')
     }else{
         console.log('Nu är formularet validerat och klart och allt är OK')
+    } */
+
+    /* Here it says is there is no error or if errors does not include false */
+    if(!errors.includes(false)){
+        console.log('Nu är formularet validerat och klart och allt är OK')
+
+        const user = {
+            firstName: event.target['firstName'].value,
+            lastName: event.target['lastName'].value,
+            email : event.target['email'].value,
+            phone: event.target['phone'].value,
+            password: event.target['password'].value,
+          }
+
+          // Convert the user javascript data into a JSON format....
+          const json = JSON.stringify(user)
+
+         /*  //Another way to converting user to JSON....Same as above
+          const json = JSON.stringify({
+          firstName: event.target['firstName'].value,
+          lastName: event.target['lastName'].value,
+          email : event.target['email'].value,
+          phone: event.target['phone'].value,
+          password: event.target['password'].value
+          }) */
+
+          /* console.log(json) */
+
+
+
+
+          // A better way that is similar to fetch is when you use await see below code....Note aynsc was used above...
+           // Fetch is used to send information to a url. API not working or stops working bcos of cors or bcos no database???
+          const res = await fetch('http://localhost:5500/api/users', {
+            method : 'post',
+            // mode:"no-cors", 
+            // This tells that the content type is a json format 
+            headers : {
+                "Content-Type": "application/json",
+               // "Access-Control-Allow-Origin": "*",
+               // "Access-Control-Allow-Credentials" : true 
+            },
+            // This is the content which is the json object we converted above 
+            body :  json,
+          }) // Then is used after fetch method if everything is okey.
+            
+            // Get a response or result back and stored as data if everything is ok
+
+            let data
+            if(res.status === 201 ){
+                // Used to show an alert of success on the html if the code works    
+                document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was created successfully! </div>`
+                data = await res.json()
+          }else {
+                data = res.text()
+                // Used to show an alert on the html if the code doesnt work  
+            document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> ${data}! </div>`
+            }
+
+
+
+
+
+       /*    // Fetch is used to send information to a url. API not working or stops working bcos of cors or bcos no database???
+          fetch('http://localhost:5500/api/users', {
+            method : 'post',
+            // mode:"no-cors", 
+            // This tells that the content type is a json format 
+            headers : {
+                "Content-Type": "application/json",
+               // "Access-Control-Allow-Origin": "*",
+               // "Access-Control-Allow-Credentials" : true 
+            },
+            // This is the content which is the json object we converted above 
+            body :  json,
+          }) // Then is used after fetch method if everything is okey.
+        .then(res => {
+            if(res.status === 201 ){
+            // Used to show an alert of success on the html if the code works    
+            document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was created successfully! </div>`
+            return res.json()
+        } else {
+            let message = res.text()
+            document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> ${message}! </div>`
+            }
+        }) // This is a function that tell that i got a json back as (res) result
+        .then(data => {
+            console.log(data)
+            // This save the user data temporary in the webbrowser session storge....
+            //sessionStorage.setItem('user', JSON.stringify(data))
+            // you can also use document.getElementById('') and print that the data was okey or printed....
+        })   The res.json is stored as data and printed out. The new way as writing function is used */
+
+
     }
 
- 
 }
 
 
@@ -175,3 +269,38 @@ function compareValues(element){
 
     return false
 }
+
+
+
+/*
+
+// Difference btw Javascript and Json...
+// Javascript object can have another function while json cannot
+// Json consist of a "" for the properties while javascript does not...
+
+const js = {
+    firstName: "John",
+    lastName : "Doe",
+    id       : 5566,
+    fullName : function() {
+      return this.firstName + " " + this.lastName;
+    }
+  };
+
+  // To comvert a Javascript object into JSON you use JSON.stringify(objectname)
+
+
+ // Declare a json using only {} not const....also no semi-colon at the end....
+  {
+    "firstName" : "John",
+    "lastName" : "Doe",
+    // for json no need for "" in numbers or boolean values....
+     "id" : 5566,
+    // Json cannot have another function inside it so below is wrong....
+    //fullName : function() {
+    //  return this.firstName + " " + this.lastName;
+    // }
+  }
+  
+  
+  */
