@@ -1,3 +1,9 @@
+
+.btn{
+    min-width: 120px;
+}
+
+
 .container{
     padding-left: 20px;
     padding-right: 20px;
@@ -12,8 +18,6 @@ form{
                          "lastName"
                          "email"
                          "phone"
-                         "password"
-                         "comfirmPassword"
                          "button";
     
 }
@@ -36,8 +40,6 @@ form div span{
 .lastName { grid-area: lastName;}
 .email { grid-area: email;}
 .phone { grid-area: phone;}
-.password { grid-area: password;}
-.comfirmPassword { grid-area: comfirmPassword;}
 button { grid-area: button;}
 
 
@@ -47,7 +49,6 @@ button { grid-area: button;}
             grid-template-columns: 1fr 1fr;
             grid-template-areas: "firstName lastName"
                                  "email phone"
-                                 "password comfirmPassword"
                                  "button button";
     }
     
@@ -62,9 +63,11 @@ button { grid-area: button;}
             */
             grid-template-areas: "firstName lastName"
                                  "email phone"
-                                 "password comfirmPassword"
                                  "button na";
     }
     
 }
+
+
+
 
