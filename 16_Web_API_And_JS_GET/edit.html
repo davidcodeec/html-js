@@ -15,8 +15,9 @@
    <!-- BootStrap Class was used here with CSS -->
 
    <div class="container border mt-5">
+      <div id="status-messages"> </div>
         <form onsubmit="handleEdit(event)" method="post" novalidate>
-            
+            <input id="id" type="hidden">
             <div class="firstName">
             <label for="firstName">First Name</label>
             <input id="firstName" class="form-control" required onkeyup="validate(this)" placeholder="First Name..." type="text">
@@ -45,8 +46,8 @@
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
    <script src="script.js"></script>
-   <script src="script.js">
-      displayEditUser()
+   <script>
+      displayEditUser();
    </script>
    <script defer src="https://kit.fontawesome.com/41c8b474e2.js" crossorigin="anonymous"></script>
 </body>

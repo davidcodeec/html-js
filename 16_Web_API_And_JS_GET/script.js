@@ -38,7 +38,9 @@ async function getData(event){
           console.log(error)
       }
 
-} */
+} 
+
+*/
 
 
 // Another way of writing the async function using the arrow function
@@ -60,7 +62,6 @@ const getUsers = async () => {
 
 
 
-// Another way of writing the async function using the arrow function
 const getUser = async (id) => {
 
   
@@ -141,7 +142,7 @@ const getUser = async (id) => {
             </div>
 
             <div class= 'mb-5'>
-                <button class='btn btn-danger me-2'>DELETE</button>
+                <button onclick='deleteUser(${id})' class='btn btn-danger me-2'>DELETE</button>
                 <a href="edit.html?id=${id}" class="btn btn-warning">EDIT</a>
             </div>
 
@@ -163,6 +164,7 @@ const getUser = async (id) => {
     const user = await getUser(id)
 
      // You can also use for loop to get the values too...
+     document.getElementById('id').value = user.id // Note the id is hidden in the html....
      document.getElementById('firstName').value = user.firstName
      document.getElementById('lastName').value = user.lastName
      document.getElementById('email').value = user.email
@@ -175,6 +177,8 @@ const getUser = async (id) => {
   const handleEdit = async (event) => {
 
     event.preventDefault()
+
+    const id = event.target['id'].value
 
     let errors = []
 
@@ -192,43 +196,80 @@ const getUser = async (id) => {
     if(!errors.includes(false)){
         console.log('Nu är formularet validerat och klart och allt är OK')
 
-            const json = JSON.stringify({
-                firstName: event.target['firstName'].value,
-                lastName: event.target['lastName'].value,
-                email : event.target['email'].value,
-                phone: event.target['phone'].value,
-                }) 
+            try {
 
-            
-                const res = await fetch('http://localhost:5500/api/users', {
-                    method : 'post',
-                    // mode:"no-cors", 
-                    // This tells that the content type is a json format 
-                    headers : {
-                        "Content-Type": "application/json",
-                       // "Access-Control-Allow-Origin": "*",
-                       // "Access-Control-Allow-Credentials" : true 
-                    },
-                    // This is the content which is the json object we converted above 
-                    body :  json,
-                  }) // Then is used after fetch method if everything is okey.
+                const json = JSON.stringify({
                     
-                    // Get a response or result back and stored as data if everything is ok
-        
-                    let data
-                    if(res.status === 201 ){
-                        // Used to show an alert of success on the html if the code works    
-                        document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was created successfully! </div>`
-                        data = await res.json()
-                  }else {
-                        data = res.text()
-                        // Used to show an alert on the html if the code doesnt work  
-                    document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> ${data}! </div>`
-                    }    
+                    firstName: event.target['firstName'].value,
+                    lastName: event.target['lastName'].value,
+                    email : event.target['email'].value,
+                    phone: event.target['phone'].value,
+                    }) 
+    
+                // API Not working....
+                    const result = await fetch(`http://localhost:5500/api/users?id=${id}`, {
+                       // Use put to get only one user
+                        method : 'put',
+                        // mode:"no-cors", 
+                        // This tells that the content type is a json format 
+                        headers : {
+                            "Content-Type": "application/json",
+                           // "Access-Control-Allow-Origin": "*",
+                           // "Access-Control-Allow-Credentials" : true 
+                        },
+                        // This is the content which is the json object we converted above 
+                        body :  json,
+                      }) // Then is used after fetch method if everything is okey.
+                        
+                        // Get a response or result back and stored as data if everything is ok
+            
+                        let user
+                        if(result.status === 201 ){
+                            // Used to show an alert of success on the html if the code works    
+                            document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was updated successfully! </div>`
+                            user = await result.json()
+                            window.location.replace(`profile.html?id=${id}`)
+                      }else {
+                            // Used to show an alert on the html if the code doesnt work  
+                        document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> User was not updated successfully! </div>`
+                        } 
+                
+            } catch (error) {
+                console.error(error)
+            }   
 
             
         }
   }
+
+
+  const deleteUser = async (id) => {
+
+    try {
+
+        // API Not working....
+            const result = await fetch(`http://localhost:5500/api/users?id=${id}`, {
+               // Use put to get only one user
+                method : 'delete'
+              }) // The body and header is not needed for deleting a user
+                
+                // Get a response or result back and stored as data if everything is ok
+                let status = result.status
+                if( status === 200 ){
+                    // Used to show an alert of success on the html if the code works    
+                    document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was deleted successfully! </div>`
+                    window.location.replace(`index.html`)
+              }else {
+                    // Used to show an alert on the html if the code doesnt work  
+                document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert">  User was not deleted successfully! </div>`
+                } 
+        
+    } catch (error) {
+        console.error(error)
+    }  
+
+  }
+
 
 
 
@@ -239,8 +280,7 @@ const getUser = async (id) => {
   /* Access the element using target using validateFormField target instead of if statement as seen above*/
 function validate(element){
 
-    // You can create errorMessages variable for the errors or get it directly from the event but getting it 
-    // fromt he event and using it is much difficult...
+  
     const errorMessages = {
         firstName_required : 'You must enter a first name',
         firstName_invalid : 'You must enter a valid first name',
@@ -263,12 +303,12 @@ function validate(element){
 
         let result = false
 
-        /* Used to valid the email using regex along with the validFormField...code same as below but much better*/
+        
         switch(element.type){
             case 'text' :
                 result = validateName(element.value)  
                 break;
-            /* Validation for both email and password not working...??? */    
+           
             case 'email' :
                 result = validateEmail(element.value)
                 break;
@@ -280,12 +320,12 @@ function validate(element){
 
 
         if(!result){
-            // If the valuse is not correct or is invalid or result is false
+           
             document.getElementById(`${element.id}`).classList.add('error')
             document.getElementById(`${element.id}-error`).innerHTML= errorMessages[element.id + '_invalid']
             return false
         } else {
-            // If result is true and the value is valid or written correctly
+            
             document.getElementById(`${element.id}`).classList.remove('error')
             document.getElementById(`${element.id}-error`).innerHTML=''
             return true
