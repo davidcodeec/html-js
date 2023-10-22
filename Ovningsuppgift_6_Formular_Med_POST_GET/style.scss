@@ -1,0 +1,83 @@
+.btn{
+    min-width: 120px;
+}
+
+
+.container{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+form{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+    grid-template-areas: "firstName"
+                         "lastName"
+                         "email"
+                         "password"
+                         "comfirmPassword"
+                         "streetName"
+                         "postalCode"
+                         "city"
+                         "button";
+    
+}
+
+
+form div span{
+    padding: 5px;
+    font-size: 0.9em;
+    color: #df4848;
+}
+
+
+.error{
+    color: #df4848;
+    border: 1px solid #df4848;
+    background-color: #fff5f5;
+}
+
+.firstName { grid-area: firstName;}
+.lastName { grid-area: lastName;}
+.email { grid-area: email;}
+.password { grid-area: password;}
+.comfirmPassword { grid-area: comfirmPassword;}
+.streetName { grid-area: streetName;}
+.postalCode { grid-area: postalCode;}
+.city { grid-area: city;}
+button { grid-area: button;}
+
+
+@media (min-width : 992px) {
+
+    form{
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas: "firstName lastName"
+                                 "email email"
+                                 "password comfirmPassword"
+                                 "streetName streetName"
+                                 "postalCode city"
+                                 "button button";
+    }
+    
+}
+
+
+@media (min-width : 1200px) {
+
+    form{
+            /* // Not needed bcos it was used already on min-width: 992px
+            grid-template-columns: 1fr 1fr; 
+            */
+            grid-template-areas: "firstName lastName"
+                                 "email email"
+                                 "password comfirmPassword"
+                                 "streetName streetName"
+                                 "postalCode city"
+                                 "button na";
+    }
+    
+}
+
