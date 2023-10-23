@@ -66,6 +66,8 @@ async function userRegistration(event){
                 if (result.status === 201) {
                     document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert">User was created successfully!</div>`;
                     const data = await result.json();
+                    //This saves to data to the browser using sessionStorage
+                    //sessionStorage.setItem('user', JSON.stringify(data)) 
                 } else {
                     // You can use data to print the error message on the browser
                     //const data = await result.text();

@@ -5,57 +5,19 @@ Javascript - Hantera data till/från Web API:er med Javascript med GET method...
 */
 
 
-
-
-/* 
-// The older way to declare a function...Same as below but below the new way of writing functions
-async function getData(event){
-
-    //Used or makes the page not redirect
-    event.preventDefault()
-    
-    try {
-        const result = await fetch('http://localhost:5500/api/users')
-        const users = await result.json()
-        console.log(users)
-    
-        for(let user of users){
-    
-            document.getElementById('result').innerHTML +=
-        
-            `
-            <a href="profile.html?id=${user.id}" class="list-group-item list-group-item-action py-3">
-                <div><strong>${user.firstName}  ${user.lastName} </strong> </div>
-                <div><small> ${user.email} </small> </div>
-            </a>
-            
-            `
-    
-        }
-    }
-    
-      catch(error){
-          console.log(error)
-      }
-
-} 
-
-*/
-
-
 // Another way of writing the async function using the arrow function
 const getUsers = async () => {
     try {
-      const result = await fetch('http://localhost:5500/api/users')
+      const result = await fetch('https://win23.azurewebsites.net/api/users')
       const users = await result.json()
-      console.log(users)
+      //console.log(users)
   
       return users
   
   }
   
     catch(error){
-        console.log(error)
+        //console.log(error)
     }
   
   } 
@@ -68,9 +30,9 @@ const getUsers = async () => {
   
       try {
         
-          const result = await fetch(`http://localhost:5500/api/users/user?id=${id}`)
+          const result = await fetch(`https://win23.azurewebsites.net/api/users/${id}`)
           const user = await result.json()
-          console.log(user)
+          /* console.log(user) */
   
           return user
     
@@ -108,47 +70,62 @@ const getUsers = async () => {
   
     const displayUser = async () => {
   
-      const params = new URLSearchParams(window.location.search)
-      const id = params.get('id')
-      console.log(id)
+     try {
+
+        const params = new URLSearchParams(window.location.search)
+        const id = params.get('id')
+        console.log(id)
+    
+    
+        const user = await getUser(id)
+        console.log(user);
   
   
-      const user = await getUser(id)
-  
-      
-       document.getElementById('result').innerHTML =
+        const profileResult = document.getElementById('profile-result');
+    
         
-            `
-  
-          <div>
-              <div class= 'mb-3' >
-                   <div><small> User ID </small> </div>
-                   <div>${user.id} </div>
-              </div>
-              
-              <div class= 'mb-3'>
-                   <div><small> First Name </small> </div>
-                   <div>${user.firstName} ${user.lastName} </div>
-              </div>
-  
-              <div class= 'mb-3'>
-                  <div><small> Email </small> </div>
-                  <div>${user.email} </div>
-              </div>
-  
-              <div class= 'mb-5'>
-                  <div><small> Phone </small> </div>
-                  <div>${user.phone} </div>
-              </div>
-  
-              <div class= 'mb-5'>
-                  <button onclick='deleteUser(${id})' class='btn btn-danger me-2'>DELETE</button>
+          if (user) {
+              profileResult.innerHTML = `
+                  <div class="mb-3" type="hidden">
+                      <div><small>User ID</small></div>
+                      <div>${user.id}</div>
+                  </div>
+                  <div class="mb-3">
+                      <div><small>First Name Last Name</small></div>
+                      <div>${user.firstName} ${user.lastName}</div>
+                  </div>
+                  <div class="mb-3">
+                      <div><small>Email</small></div>
+                      <div>${user.email}</div>
+                  </div>
+                  <div class="mb-3">
+                      <div><small>Street Name</small></div>
+                      <div>${user.streetName}</div>
+                  </div>
+                  <div class="mb-3">
+                      <div><small>Postal Code</small></div>
+                      <div>${user.postalCode}</div>
+                  </div>
+                  <div class="mb-5">
+                      <div><small>City</small></div>
+                      <div>${user.city}</div>
+                  </div>
+                  <div class="mb-5">
+                  <button onclick="deleteUser('${id}')" class="btn btn-danger me-2">DELETE</button>
                   <a href="edit.html?id=${id}" class="btn btn-warning">EDIT</a>
-              </div>
-  
-          <div>
-            
-            ` 
+                  </div>
+              `;
+          } else {
+              profileResult.innerHTML = `<p>User not found.</p>`;
+      }
+
+
+        
+     } catch (error) {
+        // Handle any other errors here
+        console.error("An error occurred:", error);
+        document.getElementById('profile-result').innerHTML = "An error occurred.";
+     }
   
     }
   
@@ -168,7 +145,9 @@ const getUsers = async () => {
        document.getElementById('firstName').value = user.firstName
        document.getElementById('lastName').value = user.lastName
        document.getElementById('email').value = user.email
-       document.getElementById('phone').value = user.phone
+       document.getElementById('streetName').value = user.streetName
+       document.getElementById('postalCode').value = user.postalCode
+       document.getElementById('city').value = user.city
   
     }
   
@@ -194,7 +173,7 @@ const getUsers = async () => {
   
   
       if(!errors.includes(false)){
-          console.log('Nu är formularet validerat och klart och allt är OK')
+         
   
               try {
   
@@ -203,35 +182,41 @@ const getUsers = async () => {
                       firstName: event.target['firstName'].value,
                       lastName: event.target['lastName'].value,
                       email : event.target['email'].value,
-                      phone: event.target['phone'].value,
+                      password: 'bytMig1234!', // Set to an empty string
+                      confirmPassword: 'bytMig1234!', // Set to an empty string
+                      streetName : event.target['streetName'].value,
+                      postalCode : event.target['postalCode'].value,
+                      city : event.target['city'].value,
+
                       }) 
-      
-                  // API Not working....
-                      const result = await fetch(`http://localhost:5500/api/users?id=${id}`, {
+                    
+                      let user; // Declare the user variable
+                  
+                      const result = await fetch(`https://win23.azurewebsites.net/api/users/${id}`, {
                          // Use put to get only one user
-                          method : 'put',
-                          // mode:"no-cors", 
-                          // This tells that the content type is a json format 
+                          method : 'PUT',
+                          
                           headers : {
                               "Content-Type": "application/json",
-                             // "Access-Control-Allow-Origin": "*",
-                             // "Access-Control-Allow-Credentials" : true 
+                             
                           },
-                          // This is the content which is the json object we converted above 
-                          body :  json,
-                        }) // Then is used after fetch method if everything is okey.
                           
-                          // Get a response or result back and stored as data if everything is ok
+                          body :  json,
+                        })
+                          
+                         
               
-                          let user
-                          if(result.status === 201 ){
-                              // Used to show an alert of success on the html if the code works    
+                         
+                          if(result.status === 204 ){
+                              // Used to show an alert of success on the html if the code works 
                               document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was updated successfully! </div>`
-                              user = await result.json()
+                              const data = await result.json();
                               window.location.replace(`profile.html?id=${id}`)
                         }else {
-                              // Used to show an alert on the html if the code doesnt work  
-                          document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> User was not updated successfully! </div>`
+                              // Used to show an alert on the html if the code doesnt work
+                              const data = await result.json();
+                              //console.error(user);  
+                          document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert"> User was not updated successfully!</div>`
                           } 
                   
               } catch (error) {
@@ -247,21 +232,22 @@ const getUsers = async () => {
   
       try {
   
-          // API Not working....
-              const result = await fetch(`http://localhost:5500/api/users?id=${id}`, {
+         
+              const result = await fetch(`https://win23.azurewebsites.net/api/users/${id}`, {
                  // Use put to get only one user
                   method : 'delete'
-                }) // The body and header is not needed for deleting a user
+                }) 
                   
-                  // Get a response or result back and stored as data if everything is ok
+                  
                   let status = result.status
                   if( status === 200 ){
-                      // Used to show an alert of success on the html if the code works    
+                        
                       document.getElementById('status-messages').innerHTML = `<div class="alert alert-success" role="alert"> User was deleted successfully! </div>`
                       window.location.replace(`index.html`)
                 }else {
                       // Used to show an alert on the html if the code doesnt work  
-                  document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert">  User was not deleted successfully! </div>`
+                      console.log(status)
+                  document.getElementById('status-messages').innerHTML = `<div class="alert alert-alert" role="alert">  User was not deleted successfully! ${status} </div>`
                   } 
           
       } catch (error) {
